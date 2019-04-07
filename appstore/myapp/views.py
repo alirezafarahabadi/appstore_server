@@ -4,7 +4,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import app, download, user, bookmark
+from .models import app, download, bookmark
 from .serializers import *
 
 
@@ -14,7 +14,7 @@ class app_list(APIView):
     """
 
     def get(self, request, format=None):
-        #print("hiiiiiiiiiiiiiiiiiiiiiii!")
+        # print("hiiiiiiiiiiiiiiiiiiiiiii!")
         apps = app.objects.all()
         serializer = app_serializer(apps, many=True)
         return Response(serializer.data)
@@ -31,6 +31,7 @@ class app_detail(APIView):
     """
     Retrieve, update or delete a app instance.
     """
+
     def get_object(self, pk):
         try:
             return app.objects.get(pk=pk)
@@ -54,3 +55,7 @@ class app_detail(APIView):
         apps = self.get_object(pk)
         apps.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class commentAPI(APIView):
+    print("fg")
