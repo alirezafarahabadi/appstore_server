@@ -11,6 +11,8 @@ class app(models.Model):
     subject = models.CharField(max_length=20)
     download_number = models.IntegerField(default=0)
     size = models.CharField(max_length=10)
+    apk_file = models.FileField(upload_to='apk_files')
+    image = models.ImageField(upload_to='image_files')
 
 
 class comment(models.Model):

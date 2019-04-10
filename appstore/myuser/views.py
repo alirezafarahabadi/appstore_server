@@ -30,9 +30,9 @@ class signup(generics.CreateAPIView):
 
 
 class login(APIView):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get(self, request, *args, **kwargs):
-        authentication_classes = (JWTAuthentication,)
-        permission_classes = (IsAuthenticated,)
         content = {
             'user': unicode(request.user),  # `django.contrib.auth.User` instance.
             'auth': unicode(request.auth),  # None

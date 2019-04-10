@@ -14,13 +14,13 @@ class app_list(APIView):
     """
 
     def get(self, request, format=None):
-        # print("hiiiiiiiiiiiiiiiiiiiiiii!")
+        print("hiiiiiiiiiiiiiiiiiiiiiii!")
         apps = app.objects.all()
-        serializer = app_serializer(apps, many=True)
+        serializer = get_app_serializer(apps, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = app_serializer(data=request.data)
+        serializer = save_app_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -40,12 +40,12 @@ class app_detail(APIView):
 
     def get(self, request, pk, format=None):
         apps = self.get_object(pk)
-        serializer = app_serializer(app)
+        serializer = get_app_serializer(apps)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = app_serializer(app, data=request.data)
+        apps = self.get_object(pk)
+        serializer = save_app_serializer(apps, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
