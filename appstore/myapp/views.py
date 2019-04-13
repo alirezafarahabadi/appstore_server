@@ -6,6 +6,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import app, download, bookmark
 from .serializers import *
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework import authentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from django.conf.urls.static import static
+
+
 
 
 class app_list(APIView):

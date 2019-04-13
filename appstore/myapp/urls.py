@@ -7,4 +7,5 @@ urlpatterns = [
     path('<int:pk>/', myapp_view.app_detail.as_view()),
     path('comment/', myapp_view.commentAPI.as_view()),
     path('comment/<int:app_pk>/', myapp_view.commentAPI.as_view()),
+
 ]

@@ -4,9 +4,9 @@ from pytz import unicode
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import authentication
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import TokenAuthentication
 
 
@@ -29,12 +29,19 @@ class signup(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class login(APIView):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAuthenticated,)
-    def get(self, request, *args, **kwargs):
-        content = {
-            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
-            'auth': unicode(request.auth),  # None
-        }
-        return Response(content)
+class UserAPI(APIView):
+    authentication_classes = (JSONWebTokenAuthentication,)
+    permission_classes = (IsAdminUser,)
+    def get(self, request, format=None):
+        print(request.user)
+        apps = get_user_model().objects.all()
+        serializer = customuser_serializer(apps, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = customuser_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
