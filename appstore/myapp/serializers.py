@@ -2,40 +2,41 @@ from rest_framework import serializers
 from .models import *
 
 
-class get_app_serializer(serializers.ModelSerializer):
-    class Meta:
-        model = app
-        # fields = ('name', 'app_description', 'creator',
-        #           'subject', 'download_number', 'size', 'apk_file')
-        exclude = ('apk_file', 'image')
+class AppSerializer(serializers.ModelSerializer):
+    apk_file = serializers.FileField(read_only=True)
+    image = serializers.ImageField(read_only=True)
 
-
-class save_app_serializer(serializers.ModelSerializer):
     class Meta:
-        model = app
+        model = App
         fields = ('name', 'app_description', 'creator',
-                  "subject", 'download_number', 'size', 'apk_file')
+                  'subject', 'download_number', 'size', 'apk_file', 'image')
 
 
-class comment_serializer(serializers.ModelSerializer):
+class Get_brief_app_serializer(serializers.ModelSerializer):
     class Meta:
-        model = comment
+        model = App
+        fields = ('name', 'subject', 'image')
+
+
+class Comment_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
         fields = ('text', 'date')
 
 
-class download_rate_serializer(serializers.ModelSerializer):
+class Download_rate_serializer(serializers.ModelSerializer):
     class Meta:
-        model = download
+        model = Download
         fields = ('app', 'user', 'date')
 
 
-class bookmark_serializer(serializers.ModelSerializer):
+class Bookmark_serializer(serializers.ModelSerializer):
     class Meta:
-        model = bookmark
+        model = Bookmark
         fields = ('app', 'user')
 
 
-class set_comment_serializer(serializers.ModelSerializer):
+class Set_comment_serializer(serializers.ModelSerializer):
     class Meta:
-        model = set_comment
+        model = Set_comment
         fields = ('app', 'user', 'comment')

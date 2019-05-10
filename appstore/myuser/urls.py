@@ -7,10 +7,10 @@ from rest_framework_jwt.views import refresh_jwt_token
 
 
 urlpatterns = [
-    path('signup/', userview.signup.as_view()),
-    path('', userview.UserAPI.as_view()),
-    url(r'^api/token/', obtain_jwt_token),
-    url(r'^api/token-refresh/', refresh_jwt_token),
-    # url(r"^api/token/$", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    # url(r"^api/token/refresh/$", TokenRefreshView.as_view(), name="token_refresh"),
+    path('signup/', userview.SignUp.as_view()),
+    path('', userview.UserListAPI.as_view()),
+    path('<int:pk>/', userview.UserDetail.as_view()),
+    url(r'^token/', obtain_jwt_token),
+    url(r'^token-refresh/', refresh_jwt_token),
+
 ]
