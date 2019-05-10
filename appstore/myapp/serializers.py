@@ -3,9 +3,6 @@ from .models import *
 
 
 class AppSerializer(serializers.ModelSerializer):
-    apk_file = serializers.FileField(read_only=True)
-    image = serializers.ImageField(read_only=True)
-
     class Meta:
         model = App
         fields = ('name', 'app_description', 'creator',

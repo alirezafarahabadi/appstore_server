@@ -1,6 +1,7 @@
 from django.db import models
 from myuser.models import CustomUser
 from django.conf import settings
+from .validators import validate_file_extension, validate_file_size
 
 
 class App(models.Model):
@@ -27,7 +28,7 @@ class App(models.Model):
     subject = models.CharField(max_length=20, choices=APP_SUBJECTS)
     download_number = models.IntegerField(default=0)
     size = models.CharField(max_length=10)
-    apk_file = models.FileField(upload_to='apk_files')
+    apk_file = models.FileField(upload_to='apk_files', validators=[validate_file_extension, validate_file_size])
     image = models.ImageField(upload_to='image_files')
 
 
