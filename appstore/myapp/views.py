@@ -2,20 +2,13 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView, CreateAPIView
 from .serializers import *
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 
-class AppList(APIView):
-    """
-    List all apps, or create a new app.
-    """
-
-    def get(self, request):
-        apps = App.objects.all()
-        serializer = Get_brief_app_serializer(apps, many=True)
-        return Response(serializer.data)
-
+class AppCreate(CreateAPIView):
+    permission_classes = (IsAuthenticated,)
     def post(self, request):
         serializer = AppSerializer(data=request.data)
         print(request.data['apk_file'])
@@ -23,6 +16,13 @@ class AppList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class AppList(ListAPIView):
+    
+    def get(self, request):
+        apps = App.objects.all()
+        serializer = Get_brief_app_serializer(apps, many=True)
+        return Response(serializer.data)
 
 
 class AppDetail(RetrieveUpdateAPIView):

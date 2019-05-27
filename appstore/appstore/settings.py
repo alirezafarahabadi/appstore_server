@@ -26,7 +26,7 @@ SECRET_KEY = '^jo7gsws=4(n6o+96v^5b=a48%r)5b531pbk=zsv5+)o5)-w0q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 REST_FRAMEWORK = {
@@ -61,7 +61,7 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=90),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 
@@ -154,6 +154,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
 
 
 # Internationalization

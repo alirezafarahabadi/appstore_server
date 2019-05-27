@@ -36,6 +36,10 @@ class UserListAPI(ListAPIView):
 
 class UserDetail(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
-    queryset = get_user_model()
-    serializer_class = CustomuserSerializer
-    permission_classes = (IsAdminUser,)
+    def get(self, request):
+        username = request.user.username
+        user = get_user_model().objects.filter(username=username)
+        print(user)
+        # users = get_user_model()
+        serializer = CustomuserSerializer(user, many=True)
+        return Response(serializer.data)

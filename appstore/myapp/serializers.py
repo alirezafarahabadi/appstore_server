@@ -12,7 +12,7 @@ class AppSerializer(serializers.ModelSerializer):
 class Get_brief_app_serializer(serializers.ModelSerializer):
     class Meta:
         model = App
-        fields = ('name', 'subject', 'image')
+        fields = ('name', 'subject', 'image', 'id')
 
 
 class Comment_serializer(serializers.ModelSerializer):
