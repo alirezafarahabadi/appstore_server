@@ -9,31 +9,36 @@ class AppSerializer(serializers.ModelSerializer):
                   'subject', 'download_number', 'size', 'apk_file', 'image')
 
 
-class Get_brief_app_serializer(serializers.ModelSerializer):
+class GetBriefAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = App
         fields = ('name', 'subject', 'image', 'id')
 
 
-class Comment_serializer(serializers.ModelSerializer):
+class SaveCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('text', 'user', 'app')
+        fields = ('comment', 'user', 'app', 'date')
 
 
-class Download_rate_serializer(serializers.ModelSerializer):
+class GetCommentSerializer(serializers.Serializer):
+    user = serializers.CharField()
+    comment = serializers.CharField()
+
+
+class DownloadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Download
         fields = ('app', 'user')
 
 
-class Bookmark_serializer(serializers.ModelSerializer):
+class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookmark
         fields = ('app', 'user')
 
 
-class Rate_serializer(serializers.ModelSerializer):
+class RateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rate
         fields = ('app', 'user', 'rate')
