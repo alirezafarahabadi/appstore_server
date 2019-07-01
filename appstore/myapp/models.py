@@ -32,11 +32,6 @@ class App(models.Model):
     image = models.ImageField(upload_to='image_files')
 
 
-class Comment(models.Model):
-    text = models.CharField(max_length=100)
-    date = models.DateTimeField(auto_now=True)
-
-
 class Download(models.Model):
     app = models.ForeignKey(App, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -50,8 +45,14 @@ class Bookmark(models.Model):
                              on_delete=models.CASCADE)
 
 
-class Set_comment(models.Model):
+class Comment(models.Model):
     app = models.ForeignKey(App, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    comment = models.ForeignKey(Comment, on_delete=models.DO_NOTHING)
+    comment = models.CharField(max_length=200)
+    date = models.DateTimeField(auto_now=True)
+
+class Rate(models.Model):
+    rate = models.CharField(max_length=4)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    app = models.ForeignKey(App, on_delete=models.CASCADE)

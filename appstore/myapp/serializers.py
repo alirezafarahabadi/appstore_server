@@ -18,13 +18,13 @@ class Get_brief_app_serializer(serializers.ModelSerializer):
 class Comment_serializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('text', 'date')
+        fields = ('text', 'user', 'app')
 
 
 class Download_rate_serializer(serializers.ModelSerializer):
     class Meta:
         model = Download
-        fields = ('app', 'user', 'date')
+        fields = ('app', 'user')
 
 
 class Bookmark_serializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class Bookmark_serializer(serializers.ModelSerializer):
         fields = ('app', 'user')
 
 
-class Set_comment_serializer(serializers.ModelSerializer):
+class Rate_serializer(serializers.ModelSerializer):
     class Meta:
-        model = Set_comment
-        fields = ('app', 'user', 'comment')
+        model = Rate
+        fields = ('app', 'user', 'rate')

@@ -10,7 +10,7 @@ urlpatterns = [
     path('signup/', userview.SignUp.as_view()),
     path('profile/', userview.UserDetail.as_view()),
     path('', userview.UserListAPI.as_view()),
-    url(r'^token/', obtain_jwt_token),
+    url(r'^login/', obtain_jwt_token),
     url(r'^token-refresh/', refresh_jwt_token),
 
 ]

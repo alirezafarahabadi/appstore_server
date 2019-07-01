@@ -21,6 +21,6 @@ class CustomUser(AbstractUser):
             email=email,
             first_name=first_name,
             last_name=last_name,
-            mobile_number=mobile_number
+            mobile_number=mobile_number,
         )
         return user

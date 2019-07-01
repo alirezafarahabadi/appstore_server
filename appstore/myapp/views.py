@@ -2,10 +2,19 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView, CreateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView, CreateAPIView, ListCreateAPIView
 from .serializers import *
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, BasePermission
 
+SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS']
+
+class IsAuthenticated(BasePermission):
+    """
+    Allows access only to authenticated users.
+    """
+
+    def has_permission(self, request, view):
+        return (request.user and request.user.is_authenticated) or (request.method in SAFE_METHODS)
 
 class AppCreate(CreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -53,3 +62,28 @@ class AppSubjects(ListAPIView):
         serializer = Get_brief_app_serializer(queryset, many=True)
         return Response(serializer.data)
 
+class AppRate(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+  
+    def post(self, request):
+        serializer = Rate_serializer(data=request.data)
+        if serializer.is_valid():
+            exist=Rate.objects.filter(user=request.data['user'], app=request.data['app'])
+            print(exist)
+            if not exist:
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response("this user has rated before.", status=status.HTTP_409_CONFLICT)
+
+    def get(self, request):
+        rates = Rate.objects.filter(app=request.data['app'])
+        sum=0
+        i=0
+        if not rates:
+            return Response("this app not rated yet.", status=status.HTTP_200_OK)
+            return
+        for rate in rates:
+            i+=1
+            sum+=float(rate.rate)
+        result=sum/i
+        return Response(result, status=status.HTTP_200_OK)
