@@ -12,6 +12,6 @@ def validate_file_size(value):
     filesize = value.size
     print(filesize)
 
-    if filesize > 1024 * 1024 * 50:
+    if filesize > 1024 * 1024 * 150:
         raise ValidationError(
-            "The maximum file size that can be uploaded is 50MB")
+            "The maximum file size that can be uploaded is 150MB")

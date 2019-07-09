@@ -24,6 +24,7 @@ class SaveCommentSerializer(serializers.ModelSerializer):
 class GetCommentSerializer(serializers.Serializer):
     user = serializers.CharField()
     comment = serializers.CharField()
+    date = serializers.DateTimeField()
 
 
 class DownloadSerializer(serializers.ModelSerializer):

@@ -6,6 +6,7 @@ from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView, CreateAP
 from .serializers import *
 from rest_framework.permissions import IsAdminUser, BasePermission
 import collections
+from django.core.exceptions import ObjectDoesNotExist
 
 SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS']
 
@@ -65,8 +66,10 @@ class AppDetail(APIView):
 class AppSubjects(ListAPIView):
 
     def list(self, request, *args, str):
-        queryset = App.objects.filter(subject=str)
-        serializer = GetBriefAppSerializer(queryset, many=True)
+        apps = App.objects.filter(subject=str)
+        if not apps:
+            return Response("there is no app by this subject or subject not found", status=status.HTTP_404_NOT_FOUND)
+        serializer = GetBriefAppSerializer(apps, many=True)
         return Response(serializer.data)
 
 
@@ -74,11 +77,12 @@ class AppRate(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        if float(request.data['rate']) > 5 or float(request.data['rate']) < 0:
+            return Response("not valid rate.", status=status.HTTP_400_BAD_REQUEST)
         serializer = RateSerializer(data=request.data)
         if serializer.is_valid():
             exist = Rate.objects.filter(
                 user=request.data['user'], app=request.data['app'])
-            print(exist)
             if not exist:
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -145,8 +149,8 @@ class AppDownload(ListCreateAPIView):
             dict[app.id] = app.download_number
         sorted_dict = sorted(dict.items(), key=lambda kv: kv[1])
         sorted_dict = collections.OrderedDict(sorted_dict)
-        if len(sorted_dict) > 10:
-            number = 10
+        if len(sorted_dict) > 5:
+            number = 5
         else:
             number = len(sorted_dict)
         for x in sorted_dict.keys():

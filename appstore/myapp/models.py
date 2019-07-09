@@ -19,6 +19,9 @@ class App(models.Model):
         ('cooking_app', 'cooking_app'),
         ('lifestyle_app', 'lifestyle_app'),
         ('health_app', 'health_app'),
+        ('social_app', 'social_app'),
+        ('network_app', 'network_app'),
+        ('media_app', 'media_app'),
     )
 
     name = models.CharField(max_length=30)

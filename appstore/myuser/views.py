@@ -7,6 +7,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import status
 from .serializers import *
 from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
 from django.core import serializers
 
 
@@ -19,6 +20,7 @@ class SignUp(generics.CreateAPIView):
         serializer = SaveCustomUserSerializer(data=request.data)
         if serializer.is_valid():
             # serializer.save()
+            validate_password(request.data['password'])
             get_user_model().custom_user_create(**serializer.validated_data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
