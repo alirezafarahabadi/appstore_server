@@ -4,7 +4,9 @@ from myapp import views as myapp_view
 urlpatterns = [
     path('create/', myapp_view.AppCreate.as_view()),
     path('rate/', myapp_view.AppRate.as_view()),
+    path('bookmark/', myapp_view.AppBookmark.as_view()),
     path('download/', myapp_view.AppDownload.as_view()),
+    path('download_rate/', myapp_view.AppDownload.as_view()),
     path('comment/', myapp_view.AppComment.as_view()),
     path('', myapp_view.AppList.as_view()),
     path('<int:pk>/', myapp_view.AppDetail.as_view()),

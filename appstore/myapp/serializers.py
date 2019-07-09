@@ -37,6 +37,10 @@ class BookmarkSerializer(serializers.ModelSerializer):
         model = Bookmark
         fields = ('app', 'user')
 
+class GetBookmarkSerializer(serializers.Serializer):
+    user = serializers.CharField()
+    app = serializers.CharField()
+
 
 class RateSerializer(serializers.ModelSerializer):
     class Meta:
