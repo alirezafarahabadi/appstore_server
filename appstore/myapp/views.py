@@ -198,7 +198,7 @@ class GetUserBookmark(ListAPIView):
         return Response(serializer.data)
 
 
-class DeleteUserBookmark(DestroyAPIView):
+class DeleteOrGetUserBookmark(DestroyAPIView, ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def delete(self, request, *args, userid, appid):
@@ -208,3 +208,10 @@ class DeleteUserBookmark(DestroyAPIView):
             return Response("this user has not bookmark this app", status=status.HTTP_404_NOT_FOUND)
         Bookmark.delete(bookmark[0])
         return Response("bookmarked app deleted", status=status.HTTP_204_NO_CONTENT)
+
+    def get(self, request, *args, userid, appid):
+        bookmark = Bookmark.objects.filter(user=userid, app=appid)
+        if not bookmark:
+            return Response("False", status=status.HTTP_404_NOT_FOUND)
+        serializer = GetCommentSerializer(bookmark)
+        return Response("True", status=status.HTTP_200_OK)

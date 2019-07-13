@@ -5,7 +5,7 @@ urlpatterns = [
     path('create/', myapp_view.AppCreate.as_view()),
     path('rate/<int:appid>/', myapp_view.GetAppRate.as_view()),
     path('rate/', myapp_view.AppRate.as_view()),
-    path('bookmark/<int:userid>/<int:appid>/', myapp_view.DeleteUserBookmark.as_view()),
+    path('bookmark/<int:userid>/<int:appid>/', myapp_view.DeleteOrGetUserBookmark.as_view()),
     path('bookmark/<int:userid>/', myapp_view.GetUserBookmark.as_view()),
     path('bookmark/', myapp_view.UserBookmark.as_view()),
     path('download/', myapp_view.AppDownload.as_view()),
