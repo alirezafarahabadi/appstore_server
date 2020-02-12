@@ -1,5 +1,5 @@
 codegen==1.0
-Django==2.1.7
+Django==2.2.10
 django-filter==2.1.0
 djangorestframework==3.9.2
 djangorestframework-jwt==1.11.0
